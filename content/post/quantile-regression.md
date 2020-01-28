@@ -1,5 +1,6 @@
 ---
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
+# Documentation: https://sourcethemes.com/academic/docs/writing-markdown-latex/
 
 title: "Quantile Regression"
 subtitle: ""
@@ -60,8 +61,7 @@ The most widely used loss function used in supervised learning (e.g. the
 regression we are talking about) is mean square. Mean square loss can be written
 as the sum (actually mean, but the quantity is a constant anyway) of $f_i(y) = (y - y_i)^2$.
 
-[[./least_square_loss.png]]
-
+![Least Square Loss](/posts/least_square_loss.png)
 
 Let's first try to reason about the mean square loss, i.e. how does it drive the
 optimization (training). Imagine you choose some parametrized function to
@@ -74,12 +74,13 @@ Quantile losses are not so different from the ordinary mean square loss. In
 fact, they are just replacing the $f_i(y)$ with L1 norm and its friends (in mean
 square loss, it is L2 norm).
 
-[[./quantile_loss.png]]
+
+![Quantile Loss](/posts/quantile_loss.png)
 
 In the above graph, there are two examples of quantile losses.
 
 1. $f_i(y) = |y-y_i|$, which guides the value toward the median (50-th percentile) of $y_i$
-2. $f_i(y) = \begin{cases}0.1 * |y_i - y| & y < y_i\\0.9*|y - y_i| & y \geq y_i\end{cases}$, which guides the value toward the 10-th percentile of $y_i$.
+2. $f_i(y) = \begin{cases}0.1 * |y_i - y| & y < y_i\\\\0.9*|y - y_i| & y \geq y_i\end{cases}$, which guides the value toward the 10-th percentile of $y_i$.
 
 It might be hard to grasp how quatile losses can do that at the first glance. It
 actually follows quite simple intuitions.
@@ -106,12 +107,12 @@ the median.
 
 The anlysis of an arbitary quantile losses $f_i$ then follows immediately.
 
-\[
+$$
 f_i(y) = \begin{cases}
-p * (y_i - y) & y < y_i \\
+p * (y_i - y) & y < y_i \\\\
 (1 - p) * (y - y_i) & y \geq y_i
 \end{cases}
-\]
+$$
 
 Still, doing the same imaginary experiment with an arbitrary $y'$ moving along
 the axis. In this case, we penalize differently for $y_i$ on the left side and
@@ -126,4 +127,4 @@ There are many articles talking about how to make use of such quantile losses.
 And they are indeed useful. 90% and 10% percetile estimation already tell you
 enough about how uncertain your estimation is.
 
-Read [[https://towardsdatascience.com/quantile-regression-from-linear-models-to-trees-to-deep-learning-af3738b527c3][this post]] for more about the applications.
+Read [this post](https://towardsdatascience.com/quantile-regression-from-linear-models-to-trees-to-deep-learning-af3738b527c3) for more about the applications.
