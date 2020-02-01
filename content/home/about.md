@@ -18,12 +18,19 @@ title = "About This Site"
 ; | Welcome to Break's Liar          |
 ; +----------------------------------+
 ;
-; CopyUpandDown 2020
+; CopyUpAndDown 2020
 
 CL-USER> (info :break)
 
 I am a software engineer by trade, working on automating things (e.g. cars). 
 I spent my school years studying Math, Control, Economics and Computer Vision.
+
+CL-USER> (skills-of :break)
+
+  0. (:C++ :LISP :PYTHON :RUST :JAVASCRIPT)
+  1. (:NIX :NIXOS :LINUX)
+  2. (:MACHINE-LEARNING :OPTIMIZATION :MATH :ALGORITHM :MODELING :DATA)
+  3. :MORE
 
 CL-USER> (intrest-of :break)
 
