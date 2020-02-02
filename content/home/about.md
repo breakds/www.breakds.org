@@ -22,8 +22,15 @@ title = "About This Site"
 
 CL-USER> (info :break)
 
+My name is Break Yang.
+
 I am a software engineer by trade, working on automating things (e.g. cars). 
 I spent my school years studying Math, Control, Economics and Computer Vision.
+
+Currently, my main focus is in autonomous driving. 
+More specifically, building practical solutions 
+for various driving :decision and :planning 
+under :uncertain and :interactive scenarios.
 
 CL-USER> (skills-of :break)
 
@@ -46,5 +53,4 @@ Besides coding, I also love
   6. :origami
   7. :singing
   8. :more
-
 ```
