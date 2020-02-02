@@ -31,3 +31,16 @@ projects: []
 让我牵起你的手，轻轻放进我的口
 
 吮吸咀嚼浑不够，毕竟一年没吃肉
+
+### English Translation
+
+Let me take the hand from you
+
+And tenderly put it into my mouth
+
+Enjoying the delicious food
+
+Since I haven't been able to taste the meat for so long
+
+
+
