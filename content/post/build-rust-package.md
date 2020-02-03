@@ -8,7 +8,7 @@ authors: [breakds]
 tags: ["rust", "nightly", "package", "nixos"]
 categories: ["nix", "rust", "dev"]
 date: 2020-02-01T20:24:04-08:00
-lastmod: 2020-02-01T20:24:04-08:00
+lastmod: 2020-02-03T09:16:04-08:00
 featured: false
 draft: false
 
@@ -188,6 +188,41 @@ preConfigure = ''
 '';
 ```
 
+## Handling Resource (Templates) Files
+
+Now the Rust application should be successfully built, and if this already
+achieves your purpose - that's good.
+
+However in my case, since the application is a web server with **templates**,
+building the binary alone will not get the template files into the final
+package, and the binary will fail to generate web pages (Cannot find templates).
+
+It would be a common case when resource files are needed, be it templates,
+configurations or other types of data files. I am not sure whether Cargo can or
+should do that, but it feels like it is Nix's responsibility to do so. 
+
+The trick I have been using is to have a `postInstall` that copies the templates
+into the package, as well as setting the environment variable specific to the
+binary (with `makeWrapper`) so that it knows where to find the template files.
+This can be done by simply adding the piece of code below into your
+`default.nix`.
+
+```
+  nativeBuildInputs = [ makeWrapper ];
+
+  postInstall = ''
+    mkdir $out/etc/
+    cp -r templates $out/etc
+    wrapProgram "$out/bin/simple-reflection-server" \
+      --prefix ROCKET_TEMPLATE_DIR : "$out/etc/templates"
+  '';
+```
+
+Note that in order to use `wrapProgram`, you need `makeWrapper` as one of
+`nativeBuildinputs`. The `--prefix`basically translates to
+
+> Whenever you run this program, set the environment variable to this value
+> before launching the binary.
 
 ## Conclusion
 
@@ -213,12 +248,21 @@ in rustPlatform.buildRustPackage rec {
     rev = version;
     sha256 = "1y2irlnha0dj63zp3dfbmrhssjj9qdxcl7h5sfr5nxf6dd4vjccg";
   };
+  
+  nativeBuildInputs = [ makeWrapper ];
 
   cargoSha256 = "0drf5xnqin26zdyvx9n2zzgahcnrna0y56cphk2pb97qhpakvhbj";
   verifyCargoDeps = true;
   
   preConfigure = ''
     export HOME=$(mktemp -d)
+  '';
+  
+  postInstall = ''
+    mkdir $out/etc/
+    cp -r templates $out/etc
+    wrapProgram "$out/bin/simple-reflection-server" \
+      --prefix ROCKET_TEMPLATE_DIR : "$out/etc/templates"
   '';
 }
 ```
