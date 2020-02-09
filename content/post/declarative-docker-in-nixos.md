@@ -1,14 +1,13 @@
 ---
-# Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
 title: "Declarative Docker Container Service in NixOS"
-subtitle: "Replace docker-compose with Nix using Filerun as an example"
+subtitle: "Replace docker-compose with Nix Using Filerun as An Example"
 summary: ""
 authors: [breakds]
 tags: ["docker", "service", "filerun", "nixos"]
 categories: ["nixos", "docker"]
-date: 2020-02-10T14:10:04-08:00
-lastmod: 2020-02-04T09:37:04-08:00
+date: 2020-02-08T14:10:04-08:00
+lastmod: 2020-02-08T09:37:04-08:00
 featured: false
 draft: false
 
