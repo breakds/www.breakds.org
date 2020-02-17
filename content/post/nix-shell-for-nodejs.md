@@ -147,12 +147,11 @@ necessary but highly recommended to understand how
 [callPackage](https://nixos.org/nixos/nix-pills/callpackage-design-pattern.html)
 works via another Nix Pill).
 
-Since we know that `<nixpkgs>` basically evaluates to a path, we can
-just use the operator `+` to combine it with the relative path to get
-the absolute path of the file, as shown below
+As [Lily Ballard](https://discourse.nixos.org/u/lilyball) has pointed
+out, below is the best syntax to `callPackage` such file.
 
 ```nix
-buildNodejs = callPackage (<nixpkgs> + /pkgs/development/web/nodejs/nodejs.nix) {};
+buildNodejs = callPackage <nixpkgs/pkgs/development/web/nodejs/nodejs.nix> {};
 ```
 
 This makes building `shell.nix` for `v8.x` as simple as
@@ -161,7 +160,7 @@ This makes building `shell.nix` for `v8.x` as simple as
 ```
 let pkgs = import <nixpkgs> {};
 
-    buildNodejs = pkgs.callPackage (<nixpkgs> + /pkgs/development/web/nodejs/nodejs.nix) {};
+    buildNodejs = pkgs.callPackage <nixpkgs/pkgs/development/web/nodejs/nodejs.nix> {};
     
     nodejs-8 = buildNodejs {
       enableNpm = true;  # We need npm, do we?
@@ -195,7 +194,7 @@ can set `nodejs-current` to whichever is needed.
 ```nix
 let pkgs = import <nixpkgs> {};
 
-    buildNodejs = pkgs.callPackage (<nixpkgs> + /pkgs/development/web/nodejs/nodejs.nix) {};
+    buildNodejs = pkgs.callPackage <nixpkgs/pkgs/development/web/nodejs/nodejs.nix> {};
 
     nodejs-12 = buildNodejs {
       enableNpm = true;
