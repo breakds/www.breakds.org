@@ -35,9 +35,11 @@ under :uncertain and :interactive scenarios.
 CL-USER> (skills-of :break)
 
   0. (:C++ :LISP :PYTHON :RUST :JAVASCRIPT)
-  1. (:NIX :NIXOS :LINUX)
-  2. (:MACHINE-LEARNING :OPTIMIZATION :MATH :ALGORITHM :MODELING :DATA)
-  3. :MORE
+  1. (:MATH :ALGORITHM :MODELING)
+  2. (:MACHINE-LEARNING :OPTIMIZATION :DATA)
+  3. (:NIX :NIXOS)
+  4. (:COMPUTATIONAL-GEOMETRY :MAPS)
+  5. :MORE
 
 CL-USER> (intrest-of :break)
 
