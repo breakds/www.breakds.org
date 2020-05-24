@@ -7,7 +7,7 @@ authors: [breakds]
 tags: ["docker", "service", "filerun", "nixos"]
 categories: ["nixos", "docker"]
 date: 2020-02-08T14:10:04-08:00
-lastmod: 2020-02-08T09:37:04-08:00
+lastmod: 2020-05-24T09:37:04-08:00
 featured: false
 draft: false
 
@@ -26,6 +26,15 @@ image:
 #   Otherwise, set `projects = []`.
 projects: []
 ---
+
+## Important Update 2020.05.24
+
+After upgrading to 20.03 version of NixOS, the docker container starts
+to use the container's actual name instead of its systemd service's
+name to address the container. This means that to specify the database
+container from the filerun web server's container, you need to change
+the value of `FR_DB_HOST` from `docker-filerun-mariadb.service` to
+`filerun-mariadb`.
 
 ## The Problem
 
@@ -212,7 +221,7 @@ container.
 docker-containers."filerun" = {
   image = "afian/filerun";
   environment = {
-    "FR_DB_HOST" = "docker-filerun-mariadb.services";  # !! IMPORTANT
+    "FR_DB_HOST" = "filerun-mariadb";  # !! IMPORTANT
     "FR_DB_PORT" = "3306";
     "FR_DB_NAME" = "filerundb";
     "FR_DB_USER" = "filerun";
@@ -238,6 +247,11 @@ bridge network, one container uses the other container's name as the
 hostname. Since NixOS's `docker-containers` modules make the
 convention of naming the container in such a way, I will just put the
 other container's name there [^1].
+
+**Important Notes**: If you are using 19.09 or older version of NixOS,
+the naming convention is actually different for docker containers.
+Nothing more needs to be changed, just make sure your `FR_DB_HOST` is
+set to `docker-filerun-mariadb.service` inated.
 
 [^1]: It would be much better if I can directly read the container's
     name from `config.docker-containers.filerun-mariadb`, so that it
