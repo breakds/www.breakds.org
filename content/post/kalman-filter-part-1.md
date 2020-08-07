@@ -221,5 +221,55 @@ Yep, just add the variance of the error to the estimation of variance. Pretty si
 
 ## Let There Be Observations
 
+So we know how to predict $x_{t+1}$ given $x_t$, which is great. This
+means that if we happen to know the initial state of the system,
+$x_0$, we can start to predict $x_1$, and then $x_2$, ..., till any
+$x_t$, which will be
+
+$$
+\begin{cases}
+\hat{x}_t &=& a^t\hat{x}_t \\\\
+\sigma\_t &=& a \cdot (a \cdot ( a \cdots) + \sigma\_{e\_{t-2}}^2) + \sigma\_{e\_{t-1}}^2
+\end{cases}
+$$
+
+As we can see, there is one fatal problem in the above prediction. As
+$t$ grows, our estimation will be less precise because the variance is
+going to grow very quickly. This is because ecah time we make
+prediction for one more step, the variance of error will be added to
+it. To see it more clearly, when $a=1$, we will have
+
+$$
+\sigma\_t = \sigma\_{e\_0}^2 + \sigma\_{e\_1}^2 + \cdots + \sigma\_{e\_{t-1}}^2
+$$
+
+It is easy to understand this **error accumulation** intuitively. As
+we make more predictions, we are not getting new information about the
+system. Think about it - if you only know what a cat looks like when
+it is 1-week old, how can you precisely predict how it looks like when
+he is 3 years old? If you only know your weight before COVID-19
+keeping us at home, how do you precisely estimate your current weight?
+
 Okay let's take one more step in the problem formulation, so that it
-will be **more realistic**.
+will be **more realistic**. Now we are allowed to take measurement of
+the system via an **observation function**. In the weight example,
+this translates to you are allowed to weigh yourself with an electric
+scale every now and then. It seems that with the method to take
+measurement, we do not need to estimate the state anymore, we can
+simply observe the readings and get the precise value! Except for that
+in reality the measurement is usually not always accurate. Therefore,
+the **observation function** has an associated **error** as well.
+Assuming a **linear** observation function, we will have the readings
+mathematically as:
+
+$$
+y_t = h_t \cdot x_t + r_t, \textrm{ where } r_t \sim N \left(0, \sigma_{r_t} \right)
+$$
+
+Note that when you take measurement at time $t + 1$, you can directly
+observe $y_{t+1}$ (though $y_t$ is not $x_{t+1}$, and the latter is
+what we want to estimate). The question now becomes, how do we make a
+good estimation about $x_{t+1}$, given
+
+1. A good estiamtion of the previous state $x_t$, and
+2. The current measurement reading $y_t$
