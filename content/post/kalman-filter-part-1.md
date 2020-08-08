@@ -249,6 +249,8 @@ system. Think about it - if you only know what a cat looks like when
 it is 1-week old, how can you precisely predict how it looks like when
 he is 3 years old? If you only know your weight before COVID-19
 keeping us at home, how do you precisely estimate your current weight?
+The key here is that you need **constant** feedback to guide your
+estimation when it gets 
 
 Okay let's take one more step in the problem formulation, so that it
 will be **more realistic**. Now we are allowed to take measurement of
@@ -267,9 +269,262 @@ y_t = h_t \cdot x_t + r_t, \textrm{ where } r_t \sim N \left(0, \sigma_{r_t} \ri
 $$
 
 Note that when you take measurement at time $t + 1$, you can directly
-observe $y_{t+1}$ (though $y_t$ is not $x_{t+1}$, and the latter is
-what we want to estimate). The question now becomes, how do we make a
+observe $y_{t+1}$ (though $y_{t+1}$ is not $x_{t+1}$, and the latter
+is what we want to estimate). The question now becomes: how to make a
 good estimation about $x_{t+1}$, given
 
-1. A good estiamtion of the previous state $x_t$, and
-2. The current measurement reading $y_t$
+- A good estiamtion of the previous state $x_t$, and
+- The current measurement reading $y_t$
+
+Let's first find the **generative model** interpretation of this. We
+can see that $y_{t+1}$ is generated in the following 3 steps:
+
+1. Sample $x_{t+1} = a \cdot x_t + e_t$ out of the distribution $N(a\hat{x}_t, a^2\sigma_t^2 + \sigma\_{e_t}^2)$ (Note that this is the conclusion from the previous section)
+2. Sample $r_{t+1}$ out of the distribution $N(0, \sigma_{r_{t+1}}^2)$
+3. Directly compute $y_{t+1} = h_{t+1} \cdot x_{t+1} + r_{t+1}$
+
+Let's stop for a while to take a closer look at the above generative
+model. The distribution $N(a\hat{x}_t, a^2\sigma_t^2 +
+\sigma\_{e_t}^2)$ comes from the conclusion of the previous section,
+which represents the best[^2] estimation of $x_{t+1}$ we can get based
+**pure prediction**. The mean and variance of this distribution will
+be used quite a lot in the derivation below, so it is good to give it
+some name. Let
+
+$$
+\begin{cases}
+x'_{t+1} &=& a\hat{x}_t \\\\
+\sigma'^2\_{t+1} &=& a^2 \sigma_t^2 + \sigma\_{e_t}^2
+\end{cases}
+$$
+
+Note that both $x'_{t+1}$ and $sigma'\_{t+1}$ are determinsitic
+values, i.e. neither of them is random variable.
+
+[^2]: I am being informal here as we haven't formally defined what
+    **the best** estimation means. We will likely get to this topic in
+    the future, so bear with me for now.
+
+
+Although the above generative model is about generating $y_{t+1}$, it
+is $x_{t+1}$ that we actually want to estimate. We can do this by
+deriving the **pdf** of $x_{t+1}$. The following derivation will
+likely seem very tedious, but I will try to be clear on each step and
+trust me, this will be the last challenge in this post!
+
+Given that we have observed $y_{t+1} = y$, what is the probability of
+$x_{t+1} = x$? Such probability can be written as
+
+$$
+\forall x, \mathbb{P} [ x_{t+1} = x \mid y_{t+1} = y] = f_{x_{t+1}}(x) \mathrm{d}x
+$$
+
+
+where $f_{x_{t+1}}(x)$ is the unknown (yet) **pdf** of $x_{t+1}$ that
+we want to derive. Also note that there is $\forall x$ in the
+statement, which is **very important**. It means that the equation
+holds for every single $x$.
+
+By applying Bayes's law, the left hand side can also be transformed as
+
+$$
+\begin{eqnarray}
+\forall x,  \mathbb{P} [ x_{t+1} = x \mid y_{t+1} = y] &=& \frac{\mathbb{P}[y_{t+1}=y \mid x_{t+1} = x] \mathbb{P}[x_{t+1} = x]}{\mathbb{P}[y_{t+1} = y]} \\\\
+&=& \frac{\mathbb{P}[r_{t+1} = y - h_{t+1}x] \mathbb{P}[x_{t+1} = x]}{\mathbb{P}[y_{t+1} = y]}
+\end{eqnarray}
+$$
+
+So there are 3 items on the right hand side. Let's crack them one by
+one. 
+
+The simplest one here is $\mathbb{P}[y_{t+1} = y]$. Since it does not
+depend on $x$, this can be just written as 
+
+$$
+\mathbb{P}[y_{t+1} = y] = \mathrm{Const} \cdot dy
+$$
+
+Next comes $\mathbb{P}[x_{t+1} = x]$, without conditioning on the
+value of $y_{t+1}$. This is the **pure prediction** we discussed
+above, which $ \sim N(x'_{t+1}, \sigma'^2_{t+1})$. Therefore it is
+simply
+
+$$
+\mathbb{P}[x_{t+1} = x] = \mathrm{Const} \cdot \exp\left(-\frac{(x-x'_{t+1})^2}{2\sigma'^2_{t+1}}\right) \mathrm{d} x
+$$
+
+The last one $\mathbb{P}[r_{t+1} = y - h_{t+1}x]$ is about $r_{t+1}$,
+which happens to be following a Gaussian distirbution as well (even
+better, the mean is zero)! This means
+
+$$
+\begin{eqnarray}
+\mathbb{P}[r_{t+1} = y - h_{t+1}x] &=& \mathrm{Const} \cdot \exp \left( -\frac{(y - h_{t+1}x)^2}{2\sigma^2_{r_{t+1}}}  \right) \mathrm{d}r \\\\
+&=& \mathrm{Const} \cdot \exp \left( -\frac{(y - h_{t+1}x)^2}{2\sigma^2_{r_{t+1}}}  \right) (\mathrm{d}y - h_{t+1}\mathrm{d}x)
+\end{eqnarray}
+$$
+
+Note $mathrm{d}r$ can be written as the form above because of
+differential form arithmetics. It is good to understand the rules
+behind them, but when you get familiar with the rules, they are just
+no more strange than the rules you use to take derivatives.
+
+Therefore, take the above 3 expanded components and plug them back,
+and keep in mind that by differential form rule $\mathrm{d}x \wedge
+\mathrm{d}x = 0$, we have
+
+
+$$
+\begin{eqnarray}
+\forall x,  && f_{x_{t+1}}(x) \mathrm{d}x \\\\
+&=& \mathbb{P} [ x_{t+1} = x \mid y_{t+1} = y] \\\\
+&=& \frac{\mathrm{Const} \cdot 
+\exp \left( 
+-\frac{(x-x'_{t+1})^2}{2\sigma'^2_{t+1}} -\frac{(y - h_{t+1}x)^2}{2\sigma^2_{r_{t+1}}}
+\right) (\mathrm{d}x \wedge \mathrm{d} y - h_{t+1} \mathrm{d}x \wedge \mathrm{d}x)}
+{\mathrm{Const} \cdot dy} \\\\
+&=& \mathrm{Const} \cdot \exp \left( 
+-\frac{(x-x'_{t+1})^2}{2\sigma'^2_{t+1}} -\frac{(y - h_{t+1}x)^2}{2\sigma^2\_{r_{t+1}}}
+\right) \mathrm{d} x
+\end{eqnarray}
+$$
+
+Let's then take a closer look at the terms inside $\exp()$
+
+$$
+\begin{eqnarray}
+&&-\frac{(x-x'_{t+1})^2}{2\sigma'^2\_{t+1}} -\frac{(y - h\_{t+1}x)^2}{2\sigma^2\_{r\_{t+1}}} \\\\
+&=&
+-\frac{(\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1})x^2 - 
+2(\sigma^2\_{r\_{t+1}} x'\_{t+1} + \sigma'^2\_{t+1}h\_{t+1}y)x + \mathrm{Const}}
+{2\sigma'^2\_{t+1}\sigma^2\_{r\_{t+1}}} \\\\
+&=& -\frac{1}{2} \frac{x^2 - 
+2\frac{\sigma^2\_{r\_{t+1}} x'\_{t+1} + \sigma'^2\_{t+1}h\_{t+1}y}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}}x}
+{\frac{\sigma'^2\_{t+1}\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}}} + \mathrm{Const}  \\\\
+&=& - \frac{1}{2}\frac{\left(x - \frac{\sigma^2\_{r\_{t+1}} x'\_{t+1} + \sigma'^2\_{t+1}h\_{t+1}y}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \right)^2}
+{\frac{\sigma'^2\_{t+1}\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}}} + \mathrm{Const}
+\end{eqnarray}
+$$
+
+Plug this back in the above equation we have
+
+$$
+\begin{eqnarray}
+\forall x,  f_{x_{t+1}}(x) \mathrm{d}x &=& \mathbb{P} [ x_{t+1} = x \mid y_{t+1} = y] \\\\
+&=& \mathrm{Const} \cdot \exp \left(  - \frac{1}{2}\frac{\left(x - \frac{\sigma^2\_{r\_{t+1}} x'\_{t+1} + \sigma'^2\_{t+1}h\_{t+1}y}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \right)^2}
+{\frac{\sigma'^2\_{t+1}\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}}} \right) \mathrm{d} x
+\end{eqnarray}
+$$
+
+Let's remove $\mathrm{d}x$ from both side, and we have
+
+$$
+\forall x,  f_{x_{t+1}}(x) =
+= \mathrm{Const} \cdot \exp \left(  - \frac{1}{2} \frac{\left(x - \frac{\sigma^2\_{r\_{t+1}} x'\_{t+1} + \sigma'^2\_{t+1}h\_{t+1}y_{t+1}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \right)^2}
+{\frac{\sigma'^2\_{t+1}\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}}} \right)
+$$
+
+Note that since $y$ is basically the value of $y_{t+1}$, it is
+replaced with $y_{t+1}$.
+
+
+This means that $x_{t+1}$ follows Gaussian distirbution! We can even
+directly tell what is the mean and what is the variance of the
+estimation from the above formula, i.e. 
+
+$$
+\begin{cases}
+\hat{x}_{t+1} &=& \frac{\sigma^2\_{r\_{t+1}} x'\_{t+1} + \sigma'^2\_{t+1}h\_{t+1}y\_{t+1}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \\\\
+\sigma^2\_{t+1} &=& \frac{\sigma'^2\_{t+1}\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}}
+\end{cases}
+$$
+
+## Making Sense of the Result
+
+The above answer still looks very complicated, and let me try to
+interpret it in a more intuitive way in this section.
+
+Let's start with the mean
+
+$$
+\begin{eqnarray}
+\hat{x}_{t+1} &=& \frac{\sigma^2\_{r\_{t+1}} x'\_{t+1} + \sigma'^2\_{t+1}h\_{t+1}y\_{t+1}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \\\\
+&=& \frac{\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \cdot x'\_{t+1} + 
+\frac{\sigma'^2\_{t+1}h\_{t+1}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \cdot y\_{t+1} \\\\
+&=& \frac{\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \cdot x'\_{t+1} + 
+\frac{\sigma'^2\_{t+1}h^2\_{t+1}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}} \cdot 
+\frac{y\_{t+1}}{h\_{t+1}} \\\\
+&=& K \cdot x'\_{t+1} + (1 - K) \cdot \frac{y\_{t+1}}{h\_{t+1}}
+\end{eqnarray}
+$$
+
+Note that in the above formula, we let
+
+$$
+K = \frac{\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}}
+$$
+
+$K$ is clearly a number between $0$ and $1$. This means that the mean
+of estimation of $x_{t+1}$ is actually a <b>weighted combination</b>
+of $x'_{t+1}$ and $y_{t+1} / h_{t+1}$. It is worth noting that 
+
+1. $x'_{t+1}$ is the best guess you can have based on <b>pure prediction</b>
+2. $y_{t+1} / h_{t+1}$ is the best guess you can have based on <b>pure observation</b>
+
+So this is basically about trusting both of those two evidences with a
+grain of salt. And how much you trust each of them depends on the
+variance of each guess. The bigger variance, the less trustworthy.
+Very reasonable, right?
+
+What about the estimated variance of $x_{t+1}$? As we have defined
+$K$, it can be written as
+
+$$
+\sigma^2\_{t+1} = K \cdot \sigma'^2_{t+1}
+$$
+
+This is intuitively just updating the pure prediction based variance
+estimation as we have observation now. Note that becauese $K < 1$, the
+final estimated variance is going to be smaller than the actual pure
+prediction based estimated variance!
+
+So at this moment we can now summarize the procedure of Kalman Filter
+update, i.e. how to obtain $t+1$-step estimation based on $t$-step
+estimation and new observation.
+
+<b>Step I:</b> Compute the pure prediction based estimation.
+
+$$
+\begin{cases}
+x'_{t+1} &=& a\hat{x}_t \\\\
+\sigma'^2\_{t+1} &=& a^2 \sigma_t^2 + \sigma\_{e_t}^2
+\end{cases}
+$$
+
+<b>Step II:</b> Compute the combination weight $K$, which is often called the <b>Kalman Gain</b>.
+
+$$
+K = \frac{\sigma^2\_{r\_{t+1}}}{\sigma^2\_{r\_{t+1}} + h^2\_{t+1}\sigma'^2\_{t+1}}
+$$
+
+<b>Step III:</b> Use Kalman Gain $K$ and observation $y_{t+1}$ to
+update the pure prediction based estimation.
+
+$$
+\begin{cases}
+\hat{x}\_{t+1} &=& K \cdot x'\_{t+1} + (1 - K) \cdot \frac{y\_{t+1}}{h\_{t+1}} \\\\
+\sigma^2\_{t+1} &=& K \cdot \sigma'^2_{t+1}
+\end{cases}
+$$
+
+## Summarry
+
+This post demonstrated the derivation of 1D Kalman Filter, and also
+slightly touched the intuitive interpretation of it. Also, I think
+many of the techniques used here such as generative model and
+differential forms can find their applications in many other
+situations.
+
+However, in reality, 1D Kalman Filter is rarely useful enough. This
+post should have prepared you for the next journey - multivariate
+Kalman Filter. Stay tuned!
