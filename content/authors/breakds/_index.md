@@ -25,7 +25,7 @@ bio: I am a software engineer by trade, working on automating things (e.g. cars)
 social:
 - icon: envelope
   icon_pack: fas
-  link: '#contact'  # For a direct email link, use "mailto:bds@breakds.org".
+  link: 'mailto:breakds@gmail.com'
 - icon: github
   icon_pack: fab
   link: https://github.com/breakds
