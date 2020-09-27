@@ -27,7 +27,9 @@ My name is Break Yang.
 I am a software engineer by trade, working on automating things (e.g. cars). 
 I spent my school years studying Math, Control, Economics and Computer Vision.
 
-Currently, my main focus is in autonomous driving. 
+Fun fact: I have been practicing programming since 6 when my father brings home a laptop. 
+
+Currently, my main focus is in autonomous driving robots.
 More specifically, building practical solutions 
 for various driving :decision and :planning 
 under :uncertain and :interactive scenarios.
