@@ -15,7 +15,7 @@ title = "About This Site"
 
 ```lisp
 ; +----------------------------------+
-; | Welcome to Break's Liar          |
+; | Welcome to Break's Lair          |
 ; +----------------------------------+
 ;
 ; CopyUpAndDown 2020
