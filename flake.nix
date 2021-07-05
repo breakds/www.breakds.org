@@ -21,5 +21,21 @@
 
         packages = with pkgs; [ hugo go gcc libcap ];
       };
+
+      defaultPackage = pkgs.stdenv.mkDerivation {
+        name = "www-breakds-org";
+
+        srcs = ./.;
+
+        buildInputs = with pkgs; [ hugo go gcc libcap git ];
+
+        buildPhase = ''
+          hugo
+        '';
+
+        installPhase = ''
+          cp -r public $out
+        '';
+      };
     });
 }
