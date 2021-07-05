@@ -25,14 +25,14 @@ CL-USER> (info :break)
 My name is Break Yang.
 
 I am a software engineer by trade, working on automating things (e.g. cars). 
-I spent my school years studying Math, Control, Economics and Computer Vision.
+
+I spent my school years studying Math, Control, Economics and Computer Vision, in pursuite 
+of a childhood dream of building robots.
 
 Fun fact: I have been practicing programming since 6 when my father brings home a laptop. 
 
-Currently, my main focus is in autonomous driving robots.
-More specifically, building practical solutions 
-for various driving :decision and :planning 
-under :uncertain and :interactive scenarios.
+More specifically, I am currenctly working on building practical solutions 
+for various :decision and :planning under :uncertain and :interactive scenarios.
 
 CL-USER> (skills-of :break)
 
@@ -50,11 +50,12 @@ Besides coding, I also love
 
   0. :my-wife
   1. :my-cats
-  2. :reading
+  2. :reading and writing
   3. :robotics
   4. :gaming  ;; I have a Nintendo Switch
-  5. :puzzels
-  6. :origami
-  7. :singing
-  8. :more
+  5. :economics
+  6. :puzzels
+  7. :origami
+  8. :singing
+  9. :more
 ```
