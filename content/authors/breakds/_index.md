@@ -1,6 +1,6 @@
 ---
 # Display name
-name: Break Yang
+title: Break Yang
 
 # Username (this should match the folder name)
 authors:

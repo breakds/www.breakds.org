@@ -19,7 +19,7 @@
       devShell = pkgs.mkShell {
         name = "hugo-dev";
 
-        packages = with pkgs; [ hugo ];
+        packages = with pkgs; [ hugo go gcc libcap ];
       };
     });
 }
