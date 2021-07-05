@@ -1,0 +1,25 @@
+{
+  description = "www.breakds.org the website";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/21.05";
+
+    utils.url = "github:numtide/flake-utils";
+    utils.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  outputs = { self, nixpkgs, ... }@inputs: inputs.utils.lib.eachSystem [
+    "x86_64-linux" "i686-linux" "aarch64-linux" "x86_64-darwin"
+  ] (system:
+    let pkgs = import nixpkgs {
+          inherit system;
+        };
+    in {
+      # Instantiate the development environment with CUDA 11.2
+      devShell = pkgs.mkShell {
+        name = "hugo-dev";
+
+        packages = with pkgs; [ hugo ];
+      };
+    });
+}
