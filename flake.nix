@@ -24,6 +24,7 @@
 
       defaultPackage = pkgs.stdenv.mkDerivation {
         name = "www-breakds-org";
+        version = "2021.07.10";
 
         srcs = ./.;
 
