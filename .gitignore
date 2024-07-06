@@ -4,3 +4,7 @@
 # Hugo
 resources/
 public/
+
+.envrc
+.direnv
+result
