@@ -17,9 +17,9 @@
     in {
       # Instantiate the development environment with CUDA 11.2
       devShell = pkgs.mkShell {
-        name = "hugo-dev";
+        name = "zola-dev";
 
-        packages = with pkgs; [ hugo go gcc libcap ];
+        packages = with pkgs; [ zola ];
       };
 
       defaultPackage = pkgs.stdenv.mkDerivation {
@@ -28,7 +28,7 @@
 
         srcs = ./.;
 
-        buildInputs = with pkgs; [ hugo go gcc libcap git ];
+        buildInputs = with pkgs; [ zola ];
 
         buildPhase = ''
           hugo
