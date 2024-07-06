@@ -8,3 +8,15 @@ public/
 .envrc
 .direnv
 result
+
+.env
+themes
+build
+storage
+node_modules
+package-lock.json
+static/demo.html
+static/tinysearch_engine.js
+static/tinysearch_engine.d.ts
+static/tinysearch_engine_bg.wasm.d.ts
+static/package.json
