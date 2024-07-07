@@ -34,18 +34,18 @@ include_content = true      # include rendered content of page/section in index
 [markdown]
 highlight_code = true
 highlight_theme = "css"
-render_emoji = false
+render_emoji = true
 external_links_target_blank = true # rel="noopener"
 external_links_no_follow = false   # rel="nofollow"
 external_links_no_referrer = false # rel="noreferrer"
 smart_punctuation = false          # `...` to `…`, `"quote"` to `“curly”` etc
 
 # Any Extra language you do not use, delete or comment out the extra language sections:
-[languages.fr]
-title = "Abridge"
-description = "Abridge est un thème Zola rapide et léger utilisant le html sémantique, le CSS abridge.css class-light et aucun JS obligatoire."
+[languages.zh]
+title = "跪为エルデンの先王"
+description = "一些只言片语和长篇大论"
 generate_feeds = true
-build_search_index = true
+build_search_index = false
 search.include_title = true # include title of page/section in index
 search.include_description = true # include description of page/section in index
 search.include_content = true # include rendered content of page/section in index
@@ -55,19 +55,19 @@ taxonomies = [
     {name = "tags", feed = true},
 ]
 
-[languages.es]
-title = "Abridge"
-description = "Abridge es un tema de Zola rápido y liviano que utiliza HTML semántico, CSS ligero de clase abridge.css y JS no obligatorio."
-generate_feeds = true
-build_search_index = true
-search.include_title = true # include title of page/section in index
-search.include_description = true # include description of page/section in index
-search.include_content = true # include rendered content of page/section in index
-# search.truncate_content_length = 100 # Truncate at nth character. May be useful if index is getting too large.
-taxonomies = [
-#    {name = "categories", feed = true},
-    {name = "tags", feed = true},
-]
+# [languages.es]
+# title = "Abridge"
+# description = "Abridge es un tema de Zola rápido y liviano que utiliza HTML semántico, CSS ligero de clase abridge.css y JS no obligatorio."
+# generate_feeds = true
+# build_search_index = true
+# search.include_title = true # include title of page/section in index
+# search.include_description = true # include description of page/section in index
+# search.include_content = true # include rendered content of page/section in index
+# # search.truncate_content_length = 100 # Truncate at nth character. May be useful if index is getting too large.
+# taxonomies = [
+# #    {name = "categories", feed = true},
+#     {name = "tags", feed = true},
+# ]
 
 [extra]
 ###############################################################################
