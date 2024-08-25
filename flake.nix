@@ -17,21 +17,35 @@
     in {
       # Instantiate the development environment with CUDA 11.2
       devShell = pkgs.mkShell {
-        name = "hugo-dev";
+        name = "zola-dev";
 
-        packages = with pkgs; [ hugo go gcc libcap ];
+        packages = with pkgs; [ zola ];
       };
 
-      defaultPackage = pkgs.stdenv.mkDerivation {
+      defaultPackage = let
+
+        abridge = pkgs.fetchFromGitHub {
+          owner = "breakds";
+          repo = "abridge";
+          rev = "3165d6ca46249a8a4bc49e9c1846b108647803e1";
+          hash = "sha256-LGlFdhBdA71HgB5AKDndbpcTgzYNC6vAmTGBeML1584=";
+        };
+
+      in pkgs.stdenv.mkDerivation {
         name = "www-breakds-org";
-        version = "2021.07.10";
+        version = "2024.08.25";
 
         srcs = ./.;
 
-        buildInputs = with pkgs; [ hugo go gcc libcap git ];
+        buildInputs = with pkgs; [ zola ];
+
+        postPatch = ''
+          mkdir themes
+          ln -s ${abridge} themes/abridge
+        '';
 
         buildPhase = ''
-          hugo
+          zola build
         '';
 
         installPhase = ''
