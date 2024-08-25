@@ -32,7 +32,7 @@
   $icon-linkedin: false,
   $icon-codeberg: false,
   $icon-gitlab: false,
-  $icon-github: false,
+  $icon-github: true,
   $icon-github-sponsor: false,
   $icon-bitbucket: false,
   $icon-python: false,
@@ -188,7 +188,7 @@
   //$top: true,//back to top button using CSS
   //$search: true,//search feature
   //$blocks: true,//css classes for block formatting, eg: recent posts, table of contents, series navigation
-  $series: true,//series navigation list
+  //$series: true,//series navigation list
   //$modifiers: true,//tiny modifier classes for sizing, spacing, etc.
   //$misc: false,
   //$grid: true,//Infinity Grid, column based layouts.
