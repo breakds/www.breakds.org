@@ -134,7 +134,7 @@ foothr = false # show or hide horizontal rule above footer
 
 title_separator = "|"  # Separator between title and title_addition, set as |, -, _, etc
 title_addition = "Fast & Lightweight Zola Theme" # a default value for title addition
-author = "Jake G" # Put Your Name here
+author = "Break Yang" # Put Your Name here
 keywords = "Abridge, Abridge.css, Zola, Theme, Zola Theme, getzola, Semantic Html, Fast, lightweight" # used for the primary site index
 banner = "banner.png" # Used as default image for OpenGraph/Twitter if page specific image is undefined.
 twitter_meta = "your-user-name" # for SEO: twitter:site and twitter:creator
@@ -354,24 +354,24 @@ favicon16 = "favicon-16x16.png" # favicon-16x16.png
 ### Otherwise you will load the katex related javascript on every page!
 ###############################################################################
 
-#katex_options = "js/katexoptions.js"
-#katex_bundle = "js/katexbundle.min.js"
+katex_options = "js/katexoptions.js"
+katex_bundle = "js/katexbundle.min.js"
 
 ### Load Katex Local Resources
-#katex_css = "katex.min.css" # Fonts - load the css/fonts locally
-#katex_js = "js/katex.min.js" # use local js, so that we dont have to whitelist cdn.jsdelivr.net for script src in CSP
-#mathtex_js = "js/mathtex-script-type.min.js" # use local js, so that we dont have to whitelist cdn.jsdelivr.net for script src in CSP
-#katex_autorender_js = "js/katex-auto-render.min.js"
+# katex_css = "katex.min.css" # Fonts - load the css/fonts locally
+# katex_js = "js/katex.min.js" # use local js, so that we dont have to whitelist cdn.jsdelivr.net for script src in CSP
+# mathtex_js = "js/mathtex-script-type.min.js" # use local js, so that we dont have to whitelist cdn.jsdelivr.net for script src in CSP
+# katex_autorender_js = "js/katex-auto-render.min.js"
 
 ### Load Katex External Resources
-#katex_css = "https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css" # Fonts - use remote fonts
-#katex_css_integrity = "sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs"
-#katex_js = "https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"
-#katex_js_integrity = "sha384-ljao5I1l+8KYFXG7LNEA7DyaFvuvSCmedUf6Y6JI7LJqiu8q5dEivP2nDdFH31V4"
-#katex_autorender_js = "https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"
-#katex_autorender_js_integrity = "sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
-#mathtex_js = "https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/mathtex-script-type.min.js"
-#mathtex_js_integrity = "sha384-jiBVvJ8NGGj5n7kJaiWwWp9AjC+Yh8rhZY3GtAX8yU28azcLgoRo4oukO87g7zDT"
+katex_css = "https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css" # Fonts - use remote fonts
+katex_css_integrity = "sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs"
+katex_js = "https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"
+katex_js_integrity = "sha384-ljao5I1l+8KYFXG7LNEA7DyaFvuvSCmedUf6Y6JI7LJqiu8q5dEivP2nDdFH31V4"
+katex_autorender_js = "https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"
+katex_autorender_js_integrity = "sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+mathtex_js = "https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/mathtex-script-type.min.js"
+mathtex_js_integrity = "sha384-jiBVvJ8NGGj5n7kJaiWwWp9AjC+Yh8rhZY3GtAX8yU28azcLgoRo4oukO87g7zDT"
 
 #math = false # Recommended setting false, and enable on per page bases instead.
 #math_auto_render = false # Recommended setting false, and enable on per page bases instead.

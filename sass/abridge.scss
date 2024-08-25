@@ -6,7 +6,7 @@
   /// Fluid layout until a defined size, then becomes centered viewport.
   //$enable-maxwidth: true,
   $mw: 75%,// max-width
-  //$mb: 1200px,// value at which to switch from fluid layout to max-width
+  $mb: 960px,// value at which to switch from fluid layout to max-width
 
   $abridgeMode: "switcher",//valid values: switcher, auto, dark, light
   $syntax-mode: "auto",// Force syntax mode: auto, dark, light
@@ -188,7 +188,7 @@
   //$top: true,//back to top button using CSS
   //$search: true,//search feature
   //$blocks: true,//css classes for block formatting, eg: recent posts, table of contents, series navigation
-  //$series: true,//series navigation list
+  $series: true,//series navigation list
   //$modifiers: true,//tiny modifier classes for sizing, spacing, etc.
   //$misc: false,
   //$grid: true,//Infinity Grid, column based layouts.
