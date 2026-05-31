@@ -32,13 +32,19 @@ include_content = true      # include rendered content of page/section in index
 # truncate_content_length = 100 # Truncate at nth character. May be useful if index is getting too large.
 
 [markdown]
-highlight_code = true
-highlight_theme = "css"
 render_emoji = true
 external_links_target_blank = true # rel="noopener"
 external_links_no_follow = false   # rel="nofollow"
 external_links_no_referrer = false # rel="noreferrer"
 smart_punctuation = false          # `...` to `…`, `"quote"` to `“curly”` etc
+
+# Zola 0.22 replaced highlight_code/highlight_theme with [markdown.highlighting].
+# style = "class" is the equivalent of the old highlight_theme = "css": Zola emits
+# theme-independent CSS classes and abridge ships the matching syntax CSS. A theme
+# name is still required by the parser but is unused in class mode.
+[markdown.highlighting]
+style = "class"
+theme = "Nord"
 
 # Any Extra language you do not use, delete or comment out the extra language sections:
 [languages.zh]
